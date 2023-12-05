@@ -29,6 +29,79 @@ Projeto consiste em uma simulação de sistema de locação e streaming de filme
 
 [Nest](https://github.com/nestjs/nest) 
 
+## Descrição da API
+# Modulo de Usuario
+Caminho para o módulo: ```bash /usuarios```
+Métodos do módulo:
+```bash
+Tipo: GET
+caminho: /usuarios/
+Parametros esperados:
+  Body: --
+  Params: --
+Retorno:
+
+list{id,
+nome,
+cidade,
+email}
+```
+
+```bash
+Tipo: Put
+caminho: /usuarios/:id
+Parametros esperados:
+  Body: {
+    nome: string,
+    idade: int,
+    cidade: string,
+    email: string,
+    telefone: string,
+    senha: string
+  }
+  Params: ID_USUARIO
+Retorno:
+{
+  usuario: usuarioAtualizado,
+  message
+}
+```
+
+```bash
+Tipo: DELETE
+caminho: /usuarios/:id
+Parametros esperados:
+  Body: --
+  Params: ID_USUARIO
+Retorno:
+{
+  usuario: usuarioRemovido,
+  message
+}
+```
+
+
+```bash
+Tipo: Post
+caminho: /usuarios/:id
+Parametros esperados:
+  Body: {
+    nome: string,
+    idade: int,
+    cidade: string,
+    email: string,
+    telefone: string,
+    senha: string
+  }
+  Params: --
+Retorno:
+{
+  id: usuario.id,
+  message
+}
+```
+
+
 ## Installation
 
 ```bash
