@@ -6,11 +6,11 @@ import { FilmeEntity } from "./filme.entity";
 export class FilmesArmazenados{
     #filmes: FilmeEntity[] = [];  
 
-    AdicionarFilme(Filme: FilmeEntity){
+    Adicionar(Filme: FilmeEntity){
         this.#filmes.push(Filme);
     }
 
-    atualizaFilme(id: string, dadosAtualizacao: Partial<FilmeEntity>){
+    atualiza(id: string, dadosAtualizacao: Partial<FilmeEntity>){
         const filme = this.buscaPorID(id);
 
         Object.entries(dadosAtualizacao).forEach(
@@ -37,7 +37,7 @@ export class FilmesArmazenados{
         return possivel;
     }
 
-    async removeFilme(id: string){
+    async remove(id: string){
         const filme = this.buscaPorID(id);
 
         this.#filmes = this.#filmes.filter(
@@ -47,7 +47,7 @@ export class FilmesArmazenados{
         return filme;
     }
 
-    async CompartilharFilme(id: string){
+    async Compartilhar(id: string){
         const filme = this.buscaPorID(id);
 
         return `Estou assistindo o filme ${filme.nome} que é do genero ${filme.genero} que conta a seguinte história: ${filme.sinopse} foi lançado em ${filme.ano} e tem duração de ${filme.duracao} minutos. Assista também!!` 

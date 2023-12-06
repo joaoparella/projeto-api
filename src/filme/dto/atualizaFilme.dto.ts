@@ -16,7 +16,7 @@ export class alteraFilmeDTO{
     @IsOptional()
     sinopse: string;
 
-    @IsString({message:"email é inválido"})    
+    @IsString()    
     @IsOptional()
     ano: string;
 

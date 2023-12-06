@@ -29,9 +29,9 @@ Projeto consiste em uma simulação de sistema de locação e streaming de filme
 
 [Nest](https://github.com/nestjs/nest) 
 
-## Descrição da API
-# Modulo de Usuario
-Caminho para o módulo: ```bash /usuarios```
+# Descrição da API
+## Modulo de Usuario
+Caminho para o módulo: ``` /usuarios```
 Métodos do módulo:
 ```bash
 Tipo: GET

@@ -13,7 +13,7 @@ export class FilmeController{
     }
 
     @Get()
-    async RetornoFilme(){
+    async Retorno(){
         const filmesListados = await this.clsFilmesArmazenados.Filmes;
         const listaRetorno = filmesListados.map(
             filme => new ListaFilmesDTO(
@@ -28,8 +28,8 @@ export class FilmeController{
     }
 
     @Get('/compartilhar/:id')
-    async CompartilharFilme(@Param('id') id: string){
-        const retorno = await this.clsFilmesArmazenados.CompartilharFilme(id);
+    async Compartilhar(@Param('id') id: string){
+        const retorno = await this.clsFilmesArmazenados.Compartilhar(id);
         return{            
             message: retorno
         }
@@ -37,8 +37,8 @@ export class FilmeController{
     }
 
     @Delete('/:id')
-    async removeFilme(@Param('id') id: string){
-        const filmeRemovido = await this.clsFilmesArmazenados.removeFilme(id)
+    async remove(@Param('id') id: string){
+        const filmeRemovido = await this.clsFilmesArmazenados.remove(id)
 
         return{
             filme: filmeRemovido,
@@ -48,8 +48,8 @@ export class FilmeController{
 
 
     @Put('/:id')
-    async atualizaFilme(@Param('id') id: string, @Body() novosDados: alteraFilmeDTO){
-        const filmeAtualizado = await this.clsFilmesArmazenados.atualizaFilme(id, novosDados)
+    async atualiza(@Param('id') id: string, @Body() novosDados: alteraFilmeDTO){
+        const filmeAtualizado = await this.clsFilmesArmazenados.atualiza(id, novosDados)
 
         return{
             filme: filmeAtualizado,
@@ -58,12 +58,12 @@ export class FilmeController{
     }
 
     @Post()
-    async criaFilme(@Body() dados: criaFilmeDTO){
+    async cria(@Body() dados: criaFilmeDTO){
         var filme = new FilmeEntity(uuid(),dados.nome,dados.duracao,dados.sinopse,
                                         dados.ano, dados.genero)
         
             
-        this.clsFilmesArmazenados.AdicionarFilme(filme);        
+        this.clsFilmesArmazenados.Adicionar(filme);        
         var retorno={
             id: filme.id,
             message:'Filme Criado'

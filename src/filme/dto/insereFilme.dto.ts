@@ -13,7 +13,7 @@ export class criaFilmeDTO{
     @IsString()
     sinopse: string;
 
-    @IsString({message:"email é inválido"})    
+    @IsString()    
     ano: string;
 
     @IsString()
