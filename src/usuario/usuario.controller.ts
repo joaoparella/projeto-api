@@ -10,7 +10,6 @@ export class UsuarioController{
     constructor(private clsUsuariosArmazenados: UsuariosArmazenados){
         
     }
-
     @Get()
     async RetornoUsuarios(){
         const usuariosListados = await this.clsUsuariosArmazenados.Usuarios;
@@ -19,7 +18,8 @@ export class UsuarioController{
                 usuario.id,
                 usuario.nome,
                 usuario.cidade,
-                usuario.email
+                usuario.email,
+                usuario.retornaAssinatura()
             )
         );
         
@@ -44,6 +44,25 @@ export class UsuarioController{
         return{
             usuario: usuarioAtualizado,
             message: 'Usuário atualizado'
+        }
+    }
+
+    @Put('/assinatura/:id/:dias')
+    async adicionaAssinatura(@Param('id') id: string, @Param('dias') dias: BigInteger){
+        const vencimento = await this.clsUsuariosArmazenados.adicionarAssinatura(id, dias)
+
+        return{
+            vencimento: vencimento,
+            message: 'Usuário atualizado'
+        }
+    }
+
+    @Get('/assinatura/:id')
+    async buscaAssinatura(@Param('id') id: string){
+        const vencimento = await this.clsUsuariosArmazenados.validaAssinatura(id)
+
+        return{
+            vencimento: vencimento            
         }
     }
 

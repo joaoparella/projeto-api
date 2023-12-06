@@ -3,7 +3,7 @@ import { UsuarioEntity } from "./usuario.entity";
 
 @Injectable()
 export class UsuariosArmazenados{
-    #usuarios: UsuarioEntity[] = [];  
+    #usuarios = [];    
 
     AdicionarUsuario(usuario: UsuarioEntity){
         this.#usuarios.push(usuario);
@@ -52,6 +52,27 @@ export class UsuariosArmazenados{
         );
         return (possivelUsuario !== undefined);
     }
+
+    validaAssinatura(id: string){
+        const usuario = this.buscaPorID(id);
+
+        return {
+            valida: usuario.validarAssinatura(),
+            vencimento: usuario.retornaAssinatura()
+        };
+    }
+
+    adicionarAssinatura(id: string,dias: BigInteger){
+        const usuario = this.buscaPorID(id);
+
+        usuario.adicionarAssinatura(dias);
+
+        return usuario.retornaAssinatura();
+    }
+
+    
+
+
 
     get Usuarios(){        
         return this.#usuarios;
