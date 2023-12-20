@@ -5,6 +5,9 @@ import { UsuariosArmazenados } from "./usuario.dm";
 import {v4  as uuid} from 'uuid'
 import { ListaUsuarioDTO } from "./dto/listaUsuario.dto";
 import { AlteraUsuarioDTO } from "./dto/atualizaUsuario.dto";
+
+import { LoginUsuarioDTO } from "./dto/loginUsuario.dto";
+
 @Controller('/usuarios')
 export class UsuarioController{    
     constructor(private clsUsuariosArmazenados: UsuariosArmazenados){
@@ -19,11 +22,21 @@ export class UsuarioController{
                 usuario.nome,
                 usuario.cidade,
                 usuario.email,
-                usuario.retornaAssinatura()
+                usuario.retornaAssinatura(),
+                usuario.senha
             )
         );
         
         return listaRetorno;
+    }
+
+    @Get('/login')
+    async Login(@Body() dadosUsuario: LoginUsuarioDTO){
+        var login = this.clsUsuariosArmazenados.validarLogin(dadosUsuario.email,dadosUsuario.senha);
+        return {
+            status: login,
+            message: login ? "Login efetuado" : "Usuario ou senha inválidos"
+        }
     }
 
     @Delete('/:id')

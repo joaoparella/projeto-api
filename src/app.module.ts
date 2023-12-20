@@ -5,8 +5,9 @@ import { UsuarioModule } from './usuario/usuario.module';
 
 
 
+
 @Module({
-  imports: [UsuarioModule,FilmeModule, SerieModule],
+  imports: [UsuarioModule,FilmeModule],
   controllers: [],
   providers: [],
 })
