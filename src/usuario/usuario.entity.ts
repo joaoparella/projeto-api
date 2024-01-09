@@ -1,3 +1,6 @@
+import Datas from "../utils/datas";
+import * as bcrypt from 'bcrypt';
+
 export class UsuarioEntity{
     id: string;
     nome: string;
@@ -6,37 +9,44 @@ export class UsuarioEntity{
     email: string;
     telefone: string;
     senha: string; 
+    assinatura: Date;
+    #datas: Datas;
+    
     constructor(id: string,nome: string,idade: BigInteger,cidade: string,email: string,telefone: string,senha: string){
+        const saltOrRounds = 10;
+
+        this.#datas = new Datas();
         this.id = id;
         this.nome = nome;
         this.idade = idade;
         this.cidade = cidade;
         this.email = email;
         this.telefone = telefone;
-        this.senha = senha;
+        this.senha = bcrypt.hashSync(senha, saltOrRounds);
+        this.assinatura = this.#datas.dataAtual();
     }
 
-    validarUsuario(){
-        var retorno = [];
-        if (this.nome == ""){
-            retorno.push("Nome inválido ou vazio");
-        }
-        if (this.telefone == ""){
-            retorno.push("Telefone inválido ou vazio");
-        }
-        if (this.cidade  == ""){
-            retorno.push("Cidade inválida ou vazia");
-        }
-        if (this.email  == ""){
-            retorno.push("Email inválido ou vazio");
-        }
-        if (this.senha  == "" || this.senha.length < 6){
-            retorno.push("Senha inválida ou vazia");
-        }
-        if (this.idade == null || this.idade.toString()  == ""){
-            retorno.push("Idade inválida ou vazia");
-        }
-        return retorno;
+
+    login(senha){
+        return bcrypt.compareSync(senha,this.senha);
+    }
+
+    trocaSenha(senha){
+        const saltOrRounds = 10;
+        this.senha = bcrypt.hashSync(senha, saltOrRounds);
+    }
+
+    retornaAssinatura(){
+        return this.#datas.formatar(this.assinatura);
+    }
+
+    validarAssinatura(){
+        var dias = this.#datas.diferencaDias(this.assinatura)
+        return (dias >= 1)
+    }
+
+    adicionarAssinatura(dias){
+        this.assinatura = this.#datas.adicionarDias(this.assinatura,dias)
     }
 
 }

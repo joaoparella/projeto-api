@@ -1,5 +1,6 @@
 import { IsEmail, IsInt, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
 import { EmailUnico } from "../validacao/email-unico.validator";
+import { SenhaForte } from "../validacao/strongpass.validator";
 
 export class AlteraUsuarioDTO{
     @IsString()
@@ -26,5 +27,6 @@ export class AlteraUsuarioDTO{
 
     @MinLength(6,{message: "Senha precisa de pelo menos 6 digitos"})
     @IsOptional()
+    @SenhaForte({message: "Senha muito fraca"})
     senha: string; 
 }

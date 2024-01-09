@@ -1,9 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { UsuarioEntity } from "./usuario.entity";
 
+
 @Injectable()
 export class UsuariosArmazenados{
-    #usuarios: UsuarioEntity[] = [];  
+    #usuarios = [];    
 
     AdicionarUsuario(usuario: UsuarioEntity){
         this.#usuarios.push(usuario);
@@ -16,7 +17,11 @@ export class UsuariosArmazenados{
             ([chave,valor]) => {
                 if(chave === 'id'){
                     return
+                }else if(chave === 'senha'){
+                    usuario.trocaSenha(valor);
+                    return
                 }
+
                 usuario[chave] = valor;
             }
         )
@@ -46,12 +51,44 @@ export class UsuariosArmazenados{
         return usuario;
     }
 
+    buscaPorEmail(email:string){
+        const possivelUsuario = this.#usuarios.find(
+            usuario => usuario.email === email
+        );
+        return possivelUsuario;
+    }
+
     validaEmail(email:string){
         const possivelUsuario = this.#usuarios.find(
             usuario => usuario.email === email
         );
         return (possivelUsuario !== undefined);
     }
+
+    validaAssinatura(id: string){
+        const usuario = this.buscaPorID(id);
+
+        return {
+            valida: usuario.validarAssinatura(),
+            vencimento: usuario.retornaAssinatura()
+        };
+    }
+
+    adicionarAssinatura(id: string,dias: BigInteger){
+        const usuario = this.buscaPorID(id);
+
+        usuario.adicionarAssinatura(dias);
+
+        return usuario.retornaAssinatura();
+    }
+
+    validarLogin(email:string,senha:string){
+        const usuario = this.buscaPorEmail(email);
+        return usuario.login(senha);
+        
+    }
+
+
 
     get Usuarios(){        
         return this.#usuarios;
