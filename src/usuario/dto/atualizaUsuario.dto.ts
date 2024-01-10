@@ -10,7 +10,7 @@ export class AlteraUsuarioDTO{
     
     @IsInt()
     @IsOptional()
-    idade: BigInteger;
+    idade: number;
 
     @IsString()
     @IsOptional()

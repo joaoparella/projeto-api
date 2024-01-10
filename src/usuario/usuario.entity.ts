@@ -4,7 +4,7 @@ import * as bcrypt from 'bcrypt';
 export class UsuarioEntity{
     id: string;
     nome: string;
-    idade: BigInteger;
+    idade: number;
     cidade: string;
     email: string;
     telefone: string;
@@ -12,7 +12,7 @@ export class UsuarioEntity{
     assinatura: Date;
     #datas: Datas;
     
-    constructor(id: string,nome: string,idade: BigInteger,cidade: string,email: string,telefone: string,senha: string){
+    constructor(id: string,nome: string,idade: number,cidade: string,email: string,telefone: string,senha: string){
         const saltOrRounds = 10;
 
         this.#datas = new Datas();

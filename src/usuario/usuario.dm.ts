@@ -84,7 +84,7 @@ export class UsuariosArmazenados{
 
     validarLogin(email:string,senha:string){
         const usuario = this.buscaPorEmail(email);
-        return usuario.login(senha);
+        return [usuario,usuario.login(senha)];
         
     }
 

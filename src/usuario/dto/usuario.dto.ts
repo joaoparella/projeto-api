@@ -9,7 +9,7 @@ export class criaUsuarioDTO{
     nome:string;
     
     @IsInt()
-    idade: BigInteger;
+    idade: number;
 
     @IsString()
     cidade: string;

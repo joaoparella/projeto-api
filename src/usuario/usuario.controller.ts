@@ -34,7 +34,8 @@ export class UsuarioController{
     async Login(@Body() dadosUsuario: LoginUsuarioDTO){
         var login = this.clsUsuariosArmazenados.validarLogin(dadosUsuario.email,dadosUsuario.senha);
         return {
-            status: login,
+            usuario: login[0],
+            status: login[1],
             message: login ? "Login efetuado" : "Usuario ou senha inválidos"
         }
     }
