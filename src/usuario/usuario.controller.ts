@@ -7,7 +7,9 @@ import { ListaUsuarioDTO } from "./dto/listaUsuario.dto";
 import { AlteraUsuarioDTO } from "./dto/atualizaUsuario.dto";
 
 import { LoginUsuarioDTO } from "./dto/loginUsuario.dto";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags('usuario')
 @Controller('/usuarios')
 export class UsuarioController{    
     constructor(private clsUsuariosArmazenados: UsuariosArmazenados){

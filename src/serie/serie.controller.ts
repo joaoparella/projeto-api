@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 import {v4  as uuid} from 'uuid'
 import { alteraSerieDTO } from "./dto/atualizaSerie.dto";
 import { criaSerieDTO } from "./dto/insereSerie.dto";
@@ -6,6 +7,7 @@ import { ListaSeriesDTO } from "./dto/listaSerie.dto";
 import { SeriesArmazenados } from "./serie.dm";
 import { SerieEntity } from "./serie.entity";
 
+@ApiTags('serie')
 @Controller('/series')
 export class SerieController{    
     constructor(private clsSeriesArmazenados: SeriesArmazenados){

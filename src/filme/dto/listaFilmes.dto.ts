@@ -2,7 +2,7 @@ export class ListaFilmesDTO{
     constructor(
         readonly id: string,
         readonly nome: string,
-        readonly duracao: BigInteger,
+        readonly duracao: number,
         readonly sinopse: string,        
         ){}
 }
