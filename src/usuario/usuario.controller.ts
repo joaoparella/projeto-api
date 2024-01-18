@@ -38,7 +38,7 @@ export class UsuarioController{
         return {
             usuario: login[0],
             status: login[1],
-            message: login ? "Login efetuado" : "Usuario ou senha inválidos"
+            message: login[1] ? "Login efetuado" : "Usuario ou senha inválidos"
         }
     }
 
