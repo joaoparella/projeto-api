@@ -7,14 +7,16 @@ import { ListaUsuarioDTO } from "./dto/listaUsuario.dto";
 import { AlteraUsuarioDTO } from "./dto/atualizaUsuario.dto";
 
 import { LoginUsuarioDTO } from "./dto/loginUsuario.dto";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiCreatedResponse, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 @ApiTags('usuario')
 @Controller('/usuarios')
 export class UsuarioController{    
     constructor(private clsUsuariosArmazenados: UsuariosArmazenados){
         
-    }
+    }   
+
+    @ApiResponse({ status: 200, description: 'Retorna os usuários cadastrados.'})
     @Get()
     async RetornoUsuarios(){
         const usuariosListados = await this.clsUsuariosArmazenados.Usuarios;
@@ -32,6 +34,7 @@ export class UsuarioController{
         return listaRetorno;
     }
 
+    @ApiResponse({ status: 200, description: 'Retorna se houve sucesso no login. O retorno "Status" diz se houve sucesso ou não.'})
     @Get('/login')
     async Login(@Body() dadosUsuario: LoginUsuarioDTO){
         var login = this.clsUsuariosArmazenados.validarLogin(dadosUsuario.email,dadosUsuario.senha);
@@ -42,6 +45,8 @@ export class UsuarioController{
         }
     }
 
+    @ApiResponse({ status: 200, description: 'Retorna que houve sucesso ao excluir o usuário.'})
+    @ApiResponse({ status: 500, description: 'Retorna que o usuário não foi encontrado.'})
     @Delete('/:id')
     async removeUsuario(@Param('id') id: string){
         const usuarioRemovido = await this.clsUsuariosArmazenados.removeUsuario(id)
@@ -52,7 +57,8 @@ export class UsuarioController{
         }
     }
 
-
+    @ApiResponse({ status: 200, description: 'Retorna que houve sucesso ao alterar o usuário.'})
+    @ApiResponse({ status: 500, description: 'Retorna que o usuário não foi encontrado.'})
     @Put('/:id')
     async atualizaUsuario(@Param('id') id: string, @Body() novosDados: AlteraUsuarioDTO){
         const usuarioAtualizado = await this.clsUsuariosArmazenados.atualizaUSuario(id, novosDados)
@@ -63,6 +69,8 @@ export class UsuarioController{
         }
     }
 
+    @ApiResponse({ status: 200, description: 'Retorna que houve sucesso ao modificar a assinatura.'})
+    @ApiResponse({ status: 500, description: 'Retorna que o usuário não foi encontrado.'})
     @Put('/assinatura/:id/:dias')
     async adicionaAssinatura(@Param('id') id: string, @Param('dias') dias: BigInteger){
         const vencimento = await this.clsUsuariosArmazenados.adicionarAssinatura(id, dias)
@@ -73,6 +81,8 @@ export class UsuarioController{
         }
     }
 
+    @ApiResponse({ status: 200, description: 'Retorna que houve sucesso ao encontrar a assinatura.'})
+    @ApiResponse({ status: 500, description: 'Retorna que o usuário não foi encontrado.'})
     @Get('/assinatura/:id')
     async buscaAssinatura(@Param('id') id: string){
         const vencimento = await this.clsUsuariosArmazenados.validaAssinatura(id)
@@ -82,6 +92,8 @@ export class UsuarioController{
         }
     }
 
+
+    @ApiCreatedResponse({ description: 'Retorna que houve sucesso ao cadastrar o usuário e retorna o ID criado.'})
     @Post()
     async criaUsuario(@Body() dadosUsuario: criaUsuarioDTO){
         var usuario = new UsuarioEntity(uuid(),dadosUsuario.nome,dadosUsuario.idade,dadosUsuario.cidade,
