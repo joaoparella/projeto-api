@@ -87,9 +87,7 @@ export class UsuariosArmazenados{
         if (usuario)
             return [usuario,usuario.login(senha)];
         else
-            return [null,false];
-        
-        
+            return [null,false];  
     }
 
 

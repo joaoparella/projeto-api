@@ -11,7 +11,9 @@ async function bootstrap() {
     cert: fs.readFileSync('./secrets/create-cert.pem'),
   };
 
-  
+
+  //const app = await NestFactory.create(AppModule,{httpsOptions});
+
   const app = await NestFactory.create(AppModule);
   
   app.useGlobalPipes(
