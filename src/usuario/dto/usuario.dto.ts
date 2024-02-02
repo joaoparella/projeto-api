@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEmail, IsInt, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
+import { ArquivoValido } from "src/files/validacao/arquivo-valido.validator";
 import { EmailUnico } from "../validacao/email-unico.validator";
 import { SenhaForte } from "../validacao/strongpass.validator";
 
@@ -53,6 +54,7 @@ export class criaUsuarioDTO{
 
     
     @IsOptional()
+    @ArquivoValido({message:'Arquivo não encontrado ou inválido'})
     @ApiProperty({
         example: 'nomearquivo-idarquivo.png',
         description: `Esse campo é responsável pela foto do usuário, para ser enviado o dado correto é necessário que seja feito o upload pelo modulo FILES.`,
