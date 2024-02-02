@@ -8,6 +8,7 @@ import { AlteraUsuarioDTO } from "./dto/atualizaUsuario.dto";
 
 import { LoginUsuarioDTO } from "./dto/loginUsuario.dto";
 import { ApiCreatedResponse, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { AlteraFotoUsuarioDTO } from "./dto/alteraFotoUsuario.dto";
 
 @ApiTags('usuario')
 @Controller('/usuarios')
@@ -27,7 +28,8 @@ export class UsuarioController{
                 usuario.cidade,
                 usuario.email,
                 usuario.retornaAssinatura(),
-                usuario.senha
+                usuario.senha,
+                usuario.foto
             )
         );
         
@@ -92,12 +94,23 @@ export class UsuarioController{
         }
     }
 
+    @ApiResponse({ status: 200, description: 'Retorna que houve sucesso ao trocar a foto.'})
+    @ApiResponse({ status: 500, description: 'Retorna que o usuário não foi encontrado.'})
+    @Post('/foto/:id')
+    async atualizaFoto(@Param('id') id: string,@Body() AlteraFotoUsuarioDTO){
+        const usuario = await this.clsUsuariosArmazenados.atualizaUSuario(id,AlteraFotoUsuarioDTO)
+
+        return{
+            usuario: usuario            
+        }
+    }
+
 
     @ApiCreatedResponse({ description: 'Retorna que houve sucesso ao cadastrar o usuário e retorna o ID criado.'})
     @Post()
     async criaUsuario(@Body() dadosUsuario: criaUsuarioDTO){
         var usuario = new UsuarioEntity(uuid(),dadosUsuario.nome,dadosUsuario.idade,dadosUsuario.cidade,
-                                    dadosUsuario.email, dadosUsuario.telefone, dadosUsuario.senha)
+                                    dadosUsuario.email, dadosUsuario.telefone, dadosUsuario.senha,dadosUsuario.foto)
         
             
         this.clsUsuariosArmazenados.AdicionarUsuario(usuario);        

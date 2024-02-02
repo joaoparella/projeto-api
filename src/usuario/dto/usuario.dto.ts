@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsInt, IsNotEmpty, IsString, MinLength } from "class-validator";
+import { IsEmail, IsInt, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
 import { EmailUnico } from "../validacao/email-unico.validator";
 import { SenhaForte } from "../validacao/strongpass.validator";
 
@@ -50,4 +50,12 @@ export class criaUsuarioDTO{
         description: `A senha deve conter pelo menos 6 caracteres, contar com letras minusculas e maiusculas, numeros e caracteres especiais.`,
     })
     senha: string; 
+
+    
+    @IsOptional()
+    @ApiProperty({
+        example: 'nomearquivo-idarquivo.png',
+        description: `Esse campo é responsável pela foto do usuário, para ser enviado o dado correto é necessário que seja feito o upload pelo modulo FILES.`,
+    })
+    foto: string; 
 }

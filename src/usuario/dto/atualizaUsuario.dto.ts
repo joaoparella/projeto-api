@@ -54,4 +54,6 @@ export class AlteraUsuarioDTO{
         description: `A senha deve conter pelo menos 6 caracteres, contar com letras minusculas e maiusculas, numeros e caracteres especiais.`,
     })
     senha: string; 
+
+    
 }
