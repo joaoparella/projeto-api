@@ -5,10 +5,22 @@ import { FilesArmazenados } from "../files.dm";
 @Injectable()
 @ValidatorConstraint({async:true})
 export class ArquivoValidoValidator implements ValidatorConstraintInterface{
-    constructor (private arquivos: FilesArmazenados){}
-    
+    //constructor (private arquivos: FilesArmazenados){}
+    constructor (){}
     async validate(value: any, validationArguments?: ValidationArguments): Promise<boolean> {
-        const validaArquivo = await this.arquivos.validaArquivo(value);
+        var arquivos;
+        const fs = require('fs');
+        fs.readdir('./upload/files/', (err, files) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        arquivos = files;
+        });
+
+
+        //const validaArquivo = await this.arquivos.validaArquivo(value);
+        const validaArquivo = true;
         return validaArquivo;
     }    
 }
