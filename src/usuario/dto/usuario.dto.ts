@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsInt, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
+import { IsEmail, IsInt, IsNotEmpty, IsNumberString, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
 import { ArquivoValido } from "src/files/validacao/arquivo-valido.validator";
 import { EmailUnico } from "../validacao/email-unico.validator";
 import { SenhaForte } from "../validacao/strongpass.validator";
@@ -27,6 +27,15 @@ export class criaUsuarioDTO{
         description: `A cidade é utilizada para identificar a localização do usuário.`,
     })
     cidade: string;
+
+    @IsNumberString()
+    @MinLength(8,{message:'CEP precisa ter 8 numeros'})
+    @MaxLength(8,{message:'CEP precisa ter 8 numeros'})
+    @ApiProperty( {
+        example: '17010150',
+        description: `O CEP é utilizado para preencher o endereço.`,
+    })
+    cep:string;
 
     @IsEmail(undefined,{message:"email é inválido"})
     @EmailUnico({message:"O email informado já existe"})

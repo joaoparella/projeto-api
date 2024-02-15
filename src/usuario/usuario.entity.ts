@@ -10,10 +10,13 @@ export class UsuarioEntity{
     telefone: string;
     senha: string; 
     assinatura: Date;
+    cep: string;
+    logradouro: string;
+    complemento: string;
     foto: string;
     #datas: Datas;
     
-    constructor(id: string,nome: string,idade: number,cidade: string,email: string,telefone: string,senha: string,foto: string){
+    constructor(id: string,nome: string,idade: number,cidade: string,email: string,telefone: string,senha: string,foto: string,cep: string, logradouro: string, complemento:string){
         const saltOrRounds = 10;
 
         this.#datas = new Datas();
@@ -21,6 +24,9 @@ export class UsuarioEntity{
         this.nome = nome;
         this.idade = idade;
         this.cidade = cidade;
+        this.cep = cep;
+        this.logradouro = logradouro;
+        this.complemento = complemento;
         this.email = email;
         this.telefone = telefone;
         this.senha = bcrypt.hashSync(senha, saltOrRounds);

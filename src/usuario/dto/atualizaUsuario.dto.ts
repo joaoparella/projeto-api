@@ -1,5 +1,5 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
-import { IsEmail, IsInt, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
+import { IsEmail, IsInt, IsNotEmpty, IsNumberString, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
 import { EmailUnico } from "../validacao/email-unico.validator";
 import { SenhaForte } from "../validacao/strongpass.validator";
 
@@ -54,6 +54,15 @@ export class AlteraUsuarioDTO{
         description: `A senha deve conter pelo menos 6 caracteres, contar com letras minusculas e maiusculas, numeros e caracteres especiais.`,
     })
     senha: string; 
+
+    @IsNumberString()
+    @MinLength(8,{message:'CEP precisa ter 8 numeros'})
+    @MaxLength(8,{message:'CEP precisa ter 8 numeros'})
+    @ApiPropertyOptional( {
+        example: '17010150',
+        description: `O CEP é utilizado para preencher o endereço.`,
+    })
+    cep:string;
 
     
 }
