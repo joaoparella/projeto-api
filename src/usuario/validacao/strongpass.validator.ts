@@ -7,8 +7,10 @@ import * as zxcvbn from 'zxcvbn';
 export class strongPassValidator implements ValidatorConstraintInterface{
     
     async validate(value: string, validationArguments?: ValidationArguments): Promise<boolean> {
-        const result = zxcvbn(value);
-        var validarSenha = (result.score <= 2) ;
+        if (value){
+            const result = zxcvbn(value);
+            var validarSenha = (result.score <= 2) ;
+        }
         return !validarSenha;
     }    
 }

@@ -6,7 +6,7 @@ import { SenhaForte } from "../validacao/strongpass.validator";
 
 
 export class criaUsuarioDTO{
-    @IsString()
+    @IsString({message: "nome tem que ser string"})
     @IsNotEmpty({message: "nome Não pode ser vazio"})
     @ApiProperty({
         example: 'Roberto Silva',
