@@ -5,12 +5,13 @@ import { FilesModule } from './files/files.module';
 import { FilmeModule } from './filme/filme.module';
 import { SerieModule } from './serie/serie.module';
 import { UsuarioModule } from './usuario/usuario.module';
+import { GeneroModule } from './genero/genero.module';
 
 
 
 
 @Module({
-  imports: [UsuarioModule,FilmeModule,FilesModule,SerieModule,EmailModule],
+  imports: [UsuarioModule,FilmeModule,FilesModule,SerieModule,EmailModule,GeneroModule],
   controllers: [],
   providers: [],
 })
