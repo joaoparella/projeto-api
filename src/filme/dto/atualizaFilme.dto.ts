@@ -11,7 +11,7 @@ export class alteraFilmeDTO{
         example: 'Indiana Jones',
         description: `O nome é usado para identificar o filme e listar.`,
     })
-    nome:string;
+    NOME:string;
     
     @IsInt()
     @IsOptional()
@@ -19,7 +19,7 @@ export class alteraFilmeDTO{
         example: '120',
         description: `A duração é um parametro numerico que armazena quantos minutos tem o filme.`,
     })
-    duracao: number;
+    DURACAO: number;
 
     @IsString()
     @IsOptional()
@@ -27,7 +27,7 @@ export class alteraFilmeDTO{
         example: 'O filme conta a história de um arqueólogo....',
         description: `Uma breve descrição ou a sinopse completa do filme.`,
     })
-    sinopse: string;
+    SINOPSE: string;
 
     @IsString()    
     @IsOptional()
@@ -35,14 +35,14 @@ export class alteraFilmeDTO{
         example: '2012',
         description: `O ano de lançamento do filme.`,
     })
-    ano: string;
+    ANO: string;
 
     @IsString()
     @IsOptional()
     @ApiPropertyOptional({
-        example: 'Ação',
-        description: `Descrição do genero do filme`,
+        example: '20b4d2b8-c682-4e64-bc05-a32b76d4ba13',
+        description: `ID do genero do filme`,
     })
-    genero: string;
+    GENERO: string;
 
 }

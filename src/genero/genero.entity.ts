@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { FILME } from "src/filme/filme.entity";
+import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class GENERO {
@@ -11,4 +12,6 @@ export class GENERO {
     @Column({length: 255})
     DESCRICAO: string;
 
+    @OneToMany(() => FILME, filme => filme.genero)
+    produtos: FILME[];
 }
