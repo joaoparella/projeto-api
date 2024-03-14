@@ -2,75 +2,41 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common"
 import { alteraFilmeDTO } from "./dto/atualizaFilme.dto";
 import { criaFilmeDTO } from "./dto/insereFilme.dto";
 import { ListaFilmesDTO } from "./dto/listaFilmes.dto";
-import { FilmesArmazenados } from "./filme.dm";
-import { FilmeEntity } from "./filme.entity";
+import { FILME } from "./filme.entity";
 import {v4  as uuid} from 'uuid'
 import { ApiTags } from "@nestjs/swagger";
+import { FilmeService } from "./filme.service";
+import { RetornoCadastroDTO, RetornoObjDTO } from "src/dto/retorno.dto";
 
 @ApiTags('filme')
 @Controller('/filmes')
 export class FilmeController{    
-    constructor(private clsFilmesArmazenados: FilmesArmazenados){
-        
+    constructor(private readonly filmeService: FilmeService){
     }
 
     @Get()
-    async Retorno(){
-        const filmesListados = await this.clsFilmesArmazenados.Filmes;
-        const listaRetorno = filmesListados.map(
-            filme => new ListaFilmesDTO(
-                filme.id,
-                filme.nome,
-                filme.duracao,
-                filme.sinopse
-            )
-        );
-        
-        return listaRetorno;
+    async Retorno():Promise<ListaFilmesDTO[]> {
+        return this.filmeService.listar();
     }
 
     @Get('/compartilhar/:id')
-    async Compartilhar(@Param('id') id: string){
-        const retorno = await this.clsFilmesArmazenados.Compartilhar(id);
-        return{            
-            message: retorno
-        }
-                
+    async Compartilhar(@Param('id') id: string): Promise<{message:String}>{
+        return this.filmeService.Compartilhar(id);
     }
 
     @Delete('/:id')
-    async remove(@Param('id') id: string){
-        const filmeRemovido = await this.clsFilmesArmazenados.remove(id)
-
-        return{
-            filme: filmeRemovido,
-            message: 'Filme removido'
-        }
+    async remove(@Param('id') id: string): Promise<RetornoObjDTO>{
+        return this.filmeService.remover(id);
     }
 
 
     @Put('/:id')
-    async atualiza(@Param('id') id: string, @Body() novosDados: alteraFilmeDTO){
-        const filmeAtualizado = await this.clsFilmesArmazenados.atualiza(id, novosDados)
-
-        return{
-            filme: filmeAtualizado,
-            message: 'Filme atualizado'
-        }
+    async atualiza(@Param('id') id: string, @Body() novosDados: alteraFilmeDTO):Promise<RetornoCadastroDTO>{
+        return this.filmeService.alterar(id, novosDados);
     }
 
     @Post()
-    async cria(@Body() dados: criaFilmeDTO){
-        var filme = new FilmeEntity(uuid(),dados.nome,dados.duracao,dados.sinopse,
-                                        dados.ano, dados.genero)
-        
-            
-        this.clsFilmesArmazenados.Adicionar(filme);        
-        var retorno={
-            id: filme.id,
-            message:'Filme Criado'
-        }
-        
-        return retorno
+    async cria(@Body() dados: criaFilmeDTO):Promise<RetornoCadastroDTO>{
+        return this.filmeService.inserir(dados);        
     }
 }
