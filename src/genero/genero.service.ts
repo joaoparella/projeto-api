@@ -49,6 +49,14 @@ export class GeneroService {
     });
   }
 
+  localizarNome(NOME: string): Promise<GENERO> {
+    return this.generoRepository.findOne({
+      where: {
+        NOME,
+      },
+    });
+  }
+
 
   async remover(id: string): Promise<RetornoObjDTO> {
     const genero = await this.localizarID(id);

@@ -33,10 +33,10 @@ export class FilmeService {
   }
 
   async Compartilhar(id: string){
-    var filme = await (this.filmeRepository // select marca.id as ID, marca.nome AS NOME_, pes_f.nome from marca ......
+    var filme = await (this.filmeRepository 
       .createQueryBuilder('filme')
       .select('filme.ID', 'ID')
-      .addSelect('filme.NOME','NOME_PRODUTO')
+      .addSelect('filme.NOME','NOME_FILME')
       .addSelect('filme.SINOPSE','SINOPSE')
       .addSelect('filme.ANO','ANO')
       .addSelect('filme.DURACAO','DURACAO')
@@ -46,7 +46,7 @@ export class FilmeService {
       .getRawOne());
 
     return{            
-      message: `Estou assistindo o filme ${filme.NOME} que é do genero ${filme.GENERO} que conta a seguinte história: ${filme.SINOPSE} foi lançado em ${filme.ANO} e tem duração de ${filme.DURACAO} minutos. Assista também!!` 
+      message: `Estou assistindo o filme ${filme.NOME_FILME} que é do genero ${filme.GENERO} que conta a seguinte história: ${filme.SINOPSE} foi lançado em ${filme.ANO} e tem duração de ${filme.DURACAO} minutos. Assista também!!` 
     }
   }
 
@@ -57,7 +57,7 @@ export class FilmeService {
         filme.ANO = dados.ANO;
         filme.DURACAO = dados.DURACAO;
         filme.SINOPSE = dados.SINOPSE;
-        filme.genero = await this.generoService.localizarID(dados.GENERO);
+        filme.genero = await this.generoService.localizarNome(dados.GENERO);
 
     return this.filmeRepository.save(filme)
     .then((result) => {
@@ -113,11 +113,13 @@ export class FilmeService {
           }
 
           if(chave=== 'GENERO'){
-            filme['GENERO'] = await this.generoService.localizarID(valor);
+            filme['GENERO'] = await this.generoService.localizarNome(valor);
             return;
            }
 
-          filme[chave] = valor;
+          if (valor) 
+           filme[chave] = valor;
+          
       }
     )
 

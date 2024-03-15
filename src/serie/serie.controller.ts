@@ -1,78 +1,42 @@
-// import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
-// import { ApiTags } from "@nestjs/swagger";
-// import {v4  as uuid} from 'uuid'
-// import { alteraSerieDTO } from "./dto/atualizaSerie.dto";
-// import { criaSerieDTO } from "./dto/insereSerie.dto";
-// import { ListaSeriesDTO } from "./dto/listaSerie.dto";
-// import { SeriesArmazenados } from "./serie.dm";
-// import { SerieEntity } from "./serie.entity";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
+import { RetornoCadastroDTO, RetornoObjDTO } from "src/dto/retorno.dto";
+import {v4  as uuid} from 'uuid'
+import { alteraSerieDTO } from "./dto/atualizaSerie.dto";
+import { criaSerieDTO } from "./dto/insereSerie.dto";
+import { ListaSeriesDTO } from "./dto/listaSerie.dto";
+import { SERIE } from "./serie.entity";
+import { SerieService } from "./serie.service";
 
-// @ApiTags('serie')
-// @Controller('/series')
-// export class SerieController{    
-//     constructor(private clsSeriesArmazenados: SeriesArmazenados){
-        
-//     }
+@ApiTags('serie')
+@Controller('/series')
+export class SerieController{    
+    constructor(private readonly serieService: SerieService){
+    }
 
-//     @Get()
-//     async RetornoSerie(){
-//         const seriesListados = await this.clsSeriesArmazenados.Filmes;
-//         const listaRetorno = seriesListados.map(
-//             serie => new ListaSeriesDTO(
-//                 serie.id,
-//                 serie.nome,
-//                 serie.duracao,
-//                 serie.sinopse,
-//                 serie.episodio,
-//                 serie.temporada
-//             )
-//         );
-        
-//         return listaRetorno;
-//     }
+    @Get()
+    async Retorno():Promise<ListaSeriesDTO[]> {
+        return this.serieService.listar();
+    }
 
-//     @Get('/compartilhar/:id')
-//     async CompartilharSerie(@Param('id') id: string){
-//         const retorno = await this.clsSeriesArmazenados.Compartilhar(id);
-//         return{            
-//             message: retorno
-//         }
-                
-//     }
+    @Get('/compartilhar/:id')
+    async Compartilhar(@Param('id') id: string): Promise<{message:String}>{
+        return this.serieService.Compartilhar(id);
+    }
 
-//     @Delete('/:id')
-//     async removeSerie(@Param('id') id: string){
-//         const serieRemovido = await this.clsSeriesArmazenados.remove(id)
-
-//         return{
-//             serie: serieRemovido,
-//             message: 'Serie removido'
-//         }
-//     }
+    @Delete('/:id')
+    async remove(@Param('id') id: string): Promise<RetornoObjDTO>{
+        return this.serieService.remover(id);
+    }
 
 
-//     @Put('/:id')
-//     async atualizaFilme(@Param('id') id: string, @Body() novosDados: alteraSerieDTO){
-//         const serieAtualizado = await this.clsSeriesArmazenados.atualiza(id, novosDados)
+    @Put('/:id')
+    async atualiza(@Param('id') id: string, @Body() novosDados: alteraSerieDTO):Promise<RetornoCadastroDTO>{
+        return this.serieService.alterar(id, novosDados);
+    }
 
-//         return{
-//             serie: serieAtualizado,
-//             message: 'Serie atualizado'
-//         }
-//     }
-
-//     @Post()
-//     async criaSerie(@Body() dados: criaSerieDTO){
-//         var serie = new SerieEntity(uuid(),dados.nome,dados.duracao,dados.sinopse,
-//                                         dados.ano, dados.genero,dados.nomeSerie,dados.episodio,dados.temporada)
-        
-            
-//         this.clsSeriesArmazenados.Adicionar(serie);        
-//         var retorno={
-//             id: serie.id,
-//             message:'Serie Criado'
-//         }
-        
-//         return retorno
-//     }
-// }
+    @Post()
+    async cria(@Body() dados: criaSerieDTO):Promise<RetornoCadastroDTO>{
+        return this.serieService.inserir(dados);        
+    }
+}
