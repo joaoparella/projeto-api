@@ -39,4 +39,9 @@ export class FilmeController{
     async cria(@Body() dados: criaFilmeDTO):Promise<RetornoCadastroDTO>{
         return this.filmeService.inserir(dados);        
     }
+
+    @Post('/ator/add')
+    async addAtor( @Body() dados: criaFilmeDTO):Promise<RetornoCadastroDTO>{
+        return this.filmeService.inserir(dados);        
+    }
 }
