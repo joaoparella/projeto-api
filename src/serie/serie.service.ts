@@ -20,6 +20,8 @@ export class SerieService {
     @Inject('GENERO_REPOSITORY')
     private generoRepository: Repository<GENERO>,  
     private readonly generoService: GeneroService,
+    @Inject('FILME_REPOSITORY')
+    private filmeRepository: Repository<FILME>,  
     private readonly filmeService: FilmeService
   ) {}
 

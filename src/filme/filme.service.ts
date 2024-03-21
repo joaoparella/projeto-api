@@ -10,6 +10,8 @@ import { GeneroService } from 'src/genero/genero.service';
 import { ListaFilmesDTO } from './dto/listaFilmes.dto';
 import { atorFilmeDTO } from './dto/atorFilme.dto';
 import { PessoaService } from 'src/pessoa/pessoa.service';
+import { FILME_PESSOAService } from 'src/filme_pessoa/filme_pessoa.service';
+import { RetornoElencoDTO } from 'src/filme_pessoa/dto/retornoElenco.dto';
 
 
 @Injectable()
@@ -18,7 +20,8 @@ export class FilmeService {
     @Inject('FILME_REPOSITORY')
     private filmeRepository: Repository<FILME>,
     private readonly generoService: GeneroService,
-    private readonly atorService:  PessoaService
+    private readonly atorService:  PessoaService,
+    private readonly filmeAtorService:  FILME_PESSOAService
   ) {}
 
   async listar(): Promise<ListaFilmesDTO[]> {
@@ -104,41 +107,24 @@ export class FilmeService {
     });  
   }
 
-  async addAtor(dados: atorFilmeDTO): Promise<RetornoObjDTO> {
+  async addAtor(dados: atorFilmeDTO): Promise<RetornoCadastroDTO> {
     const filme = await this.localizarID(dados.IDFILME);
+    const ator = await this.atorService.localizarID(dados.IDATOR);
     
-    return this.filmeRepository.remove(filme)
-    .then((result) => {
-      return <RetornoObjDTO>{
-        return: filme,
-        message: "Filme excluido!"
-      };
-    })
-    .catch((error) => {
-      return <RetornoObjDTO>{
-        return: filme,
-        message: "Houve um erro ao excluir." + error.message
-      };
-    });  
+    return this.filmeAtorService.inserir(filme,ator,dados.FUNCAO);    
   }
 
-  async removeAtor(dados: atorFilmeDTO): Promise<RetornoObjDTO> {
+  async removeAtor(dados: atorFilmeDTO): Promise<RetornoCadastroDTO> {
     const filme = await this.localizarID(dados.IDFILME);
-    const ator = await .localizarID(dados.IDFILME);
+    const ator = await this.atorService.localizarID(dados.IDFILME);
     
-    return this.filmeRepository.remove(filme)
-    .then((result) => {
-      return <RetornoObjDTO>{
-        return: filme,
-        message: "Filme excluido!"
-      };
-    })
-    .catch((error) => {
-      return <RetornoObjDTO>{
-        return: filme,
-        message: "Houve um erro ao excluir." + error.message
-      };
-    });  
+    return this.filmeAtorService.remover(filme,ator);
+  }
+
+  async listarAtor(idfilme: string): Promise<RetornoElencoDTO> {
+    const filme = await this.localizarID(idfilme);
+    
+    return this.filmeAtorService.listarElenco(filme);
   }
 
   async alterar(id: string, dados: alteraFilmeDTO): Promise<RetornoCadastroDTO> {

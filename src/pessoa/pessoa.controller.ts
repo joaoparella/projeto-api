@@ -11,7 +11,7 @@ export class PessoaController{
              
     }
 
-    @Get('listar')
+    @Get('')
     async listar(): Promise<PESSOA[]>{
         return this.pessoaService.listar();
     }

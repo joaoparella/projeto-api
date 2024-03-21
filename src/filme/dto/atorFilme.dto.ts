@@ -10,11 +10,18 @@ export class atorFilmeDTO{
     })
     IDATOR:string;
     
-    @IsInt()
+    @IsString()
     @ApiPropertyOptional({
         example: '',
         description: `Deve ser informado o ID do filme a vincular com o ATOR.`,
     })
     IDFILME: string;
+
+    @IsString()
+    @ApiPropertyOptional({
+        example: 'ATOR',
+        description: `Deve ser informado a função no filme, como ATOR, DIRETOR.`,
+    })
+    FUNCAO: string;
 
 }

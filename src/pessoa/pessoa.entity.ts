@@ -9,7 +9,7 @@ export class PESSOA {
     @Column({length: 255})
     NOME: string;
 
-    @Column({length: 255})
+    @Column()
     NASCIMENTO: Date;
 
     @Column({length: 255})
@@ -23,11 +23,11 @@ export class PESSOA {
           name: 'filme_pessoa',
           joinColumn: {
             name: 'IDPESSOA',
-            referencedColumnName: 'id',
+            referencedColumnName: 'ID',
           },
           inverseJoinColumn: {
             name: 'IDFILME',
-            referencedColumnName: 'id',
+            referencedColumnName: 'ID',
           },
         })
     filmes?: FILME[];
