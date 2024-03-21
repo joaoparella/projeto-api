@@ -8,6 +8,8 @@ import { alteraFilmeDTO } from './dto/atualizaFilme.dto';
 import { GENERO } from 'src/genero/genero.entity';
 import { GeneroService } from 'src/genero/genero.service';
 import { ListaFilmesDTO } from './dto/listaFilmes.dto';
+import { atorFilmeDTO } from './dto/atorFilme.dto';
+import { PessoaService } from 'src/pessoa/pessoa.service';
 
 
 @Injectable()
@@ -15,9 +17,8 @@ export class FilmeService {
   constructor(
     @Inject('FILME_REPOSITORY')
     private filmeRepository: Repository<FILME>,
-    @Inject('GENERO_REPOSITORY')
-    private generoRepository: Repository<GENERO>,  
-    private readonly generoService: GeneroService
+    private readonly generoService: GeneroService,
+    private readonly atorService:  PessoaService
   ) {}
 
   async listar(): Promise<ListaFilmesDTO[]> {
@@ -87,6 +88,43 @@ export class FilmeService {
 
   async remover(id: string): Promise<RetornoObjDTO> {
     const filme = await this.localizarID(id);
+    
+    return this.filmeRepository.remove(filme)
+    .then((result) => {
+      return <RetornoObjDTO>{
+        return: filme,
+        message: "Filme excluido!"
+      };
+    })
+    .catch((error) => {
+      return <RetornoObjDTO>{
+        return: filme,
+        message: "Houve um erro ao excluir." + error.message
+      };
+    });  
+  }
+
+  async addAtor(dados: atorFilmeDTO): Promise<RetornoObjDTO> {
+    const filme = await this.localizarID(dados.IDFILME);
+    
+    return this.filmeRepository.remove(filme)
+    .then((result) => {
+      return <RetornoObjDTO>{
+        return: filme,
+        message: "Filme excluido!"
+      };
+    })
+    .catch((error) => {
+      return <RetornoObjDTO>{
+        return: filme,
+        message: "Houve um erro ao excluir." + error.message
+      };
+    });  
+  }
+
+  async removeAtor(dados: atorFilmeDTO): Promise<RetornoObjDTO> {
+    const filme = await this.localizarID(dados.IDFILME);
+    const ator = await .localizarID(dados.IDFILME);
     
     return this.filmeRepository.remove(filme)
     .then((result) => {

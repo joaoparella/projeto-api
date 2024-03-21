@@ -7,6 +7,7 @@ import {v4  as uuid} from 'uuid'
 import { ApiTags } from "@nestjs/swagger";
 import { FilmeService } from "./filme.service";
 import { RetornoCadastroDTO, RetornoObjDTO } from "src/dto/retorno.dto";
+import { atorFilmeDTO } from "./dto/atorFilme.dto";
 
 @ApiTags('filme')
 @Controller('/filmes')
@@ -41,7 +42,12 @@ export class FilmeController{
     }
 
     @Post('/ator/add')
-    async addAtor( @Body() dados: criaFilmeDTO):Promise<RetornoCadastroDTO>{
-        return this.filmeService.inserir(dados);        
+    async addAtor( @Body() dados: atorFilmeDTO):Promise<RetornoCadastroDTO>{
+        return this.filmeService.addAtor(dados);        
+    }
+
+    @Delete('/ator/add')
+    async removeAtor( @Body() dados: atorFilmeDTO):Promise<RetornoCadastroDTO>{
+        return this.filmeService.removeAtor(dados);        
     }
 }
