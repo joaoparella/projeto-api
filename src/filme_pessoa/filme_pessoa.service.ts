@@ -61,7 +61,9 @@ export class FILME_PESSOAService {
     }
 
     async localizar(filme: FILME, pessoa:PESSOA): Promise<FILME_PESSOA>{
-        let retorno = await this.filme_pessoaRepository.findOne({where: {IDFILME:filme, IDPESSOA:pessoa }});
+        let retorno = await this.filme_pessoaRepository.findOne({where: 
+            {IDFILME:filme, IDPESSOA:pessoa }
+        });
 
         return retorno;
     }
