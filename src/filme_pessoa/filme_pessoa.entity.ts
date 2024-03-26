@@ -23,15 +23,15 @@ export class FILME_PESSOA{
         ator => ator.filmes,
         {onDelete: 'NO ACTION', onUpdate: 'NO ACTION'}
       )
-      @JoinColumn([{ name: 'IDPESSOA', referencedColumnName: 'ID' }])
-      ator: PESSOA[];
+    @JoinColumn([{ name: 'IDPESSOA', referencedColumnName: 'ID' }])
+    ator: PESSOA[];
     
-      @ManyToOne(
+    @ManyToOne(
         () => FILME,
         filme => filme.atores,
         {onDelete: 'NO ACTION', onUpdate: 'NO ACTION'}
       )
-      @JoinColumn([{ name: 'IDFILME', referencedColumnName: 'ID' }])
-      filme: FILME[];
+    @JoinColumn([{ name: 'IDFILME', referencedColumnName: 'ID' }])
+    filme: FILME[];
 
 }

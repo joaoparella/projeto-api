@@ -122,11 +122,7 @@ export class SerieService {
           if(chave=== 'id'){
               return;
           }
-
-          if(chave=== 'GENERO'){
-            serie['GENERO'] = await this.generoService.localizarNome(valor);
-            return;
-           }
+          
 
             if (chave === 'filme') {
                 if (serie.filme != undefined) {

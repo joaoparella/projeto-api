@@ -116,7 +116,7 @@ export class FilmeService {
 
   async removeAtor(dados: atorFilmeDTO): Promise<RetornoCadastroDTO> {
     const filme = await this.localizarID(dados.IDFILME);
-    const ator = await this.atorService.localizarID(dados.IDFILME);
+    const ator = await this.atorService.localizarID(dados.IDATOR);
     
     return this.filmeAtorService.remover(filme,ator);
   }
